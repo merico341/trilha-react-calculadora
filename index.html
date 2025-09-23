@@ -52,21 +52,51 @@
             blast: 'text-3xl'
         }
 
+        const buttonVariants = {
+            default: 'bg-(--background)',
+            primary: 'bg-(--primary)'
+        }
+
         function Text({ as = 'span', variants = 'default', className, children, ...props}) {
             return React.createElement(
                 as,
                 {
-                  className: `${textVariants[variants]} ${className}`,
+                  className: `${textVariants[variants]} ${className ? className : ''}`,
                   ...props
                 },
                 children
             )
         }
 
+        function Button({ children, className, variants = 'default', ...props }) {
+            return (
+                <Text 
+                as="button"
+                variants="heading"
+                className={`
+                    flex items-center justify-center rounded-xl
+                    p-3 cursor-pointer text-(--text)
+                    bg-linear-(--gradient)
+                    hover: bg-linear-(--gradient-hover)
+                    shadow-(--shadow)
+
+                    ${buttonVariants[variants]}
+
+                    ${className ? className : ''}
+                `}
+                {...props}
+                >
+                    {children}
+                </Text>
+            )
+        }
+
         function App() {
             return (
                 <main className="py-28 px-4">
-                    <Text>Hello World</Text>
+                    <Button>
+                        CE
+                    </Button>
                 </main>
             )
         }
