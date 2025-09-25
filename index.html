@@ -63,7 +63,13 @@
         function CalculatorProvider({ children }) {
             const [history, setHistory] = React.useState([]);
             const historyStorageKey = 'history';
+            
+            React.useEffect(() => {
+                const savedHistoty = localStorage.getItem(historyStorageKey);
 
+                setHistory(JSON.parse(savedHistoty || '[]'));
+            }, [])
+            
             function updateHistory(operation, parsedResult) {
                 setHistory((prev) => {
                     const updatedHistory = [...prev, `${operation}=${parsedResult}`];
