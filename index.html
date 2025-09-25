@@ -62,14 +62,24 @@
         const CalculatorContext = React.createContext();
         function CalculatorProvider({ children }) {
             const [history, setHistory] = React.useState([]);
+            const historyStorageKey = 'history';
 
-            function uptadeHistory(operation, parsedResult) {
-                setHistory((prev) => [...prev, `${operation}=${parsedResult}`]);
+            function updateHistory(operation, parsedResult) {
+                setHistory((prev) => {
+                    const updatedHistory = [...prev, `${operation}=${parsedResult}`];
+
+                    localStorage.setItem(
+                        historyStorageKey,
+                        JSON.stringify(updatedHistory)
+                    );
+
+                    return updatedHistory;
+                });
             }
 
             return (
                 <CalculatorContext.Provider
-                    value={{ history, uptadeHistory }}
+                    value={{ history, updateHistory }}
                 >
                     {children}
                 </CalculatorContext.Provider>
@@ -201,7 +211,7 @@
             const [operation, setOperation] = React.useState('');
             const [result, setResult] = React.useState('');
 
-            const { uptadeHistory } = React.useContext(CalculatorContext);
+            const { updateHistory } = React.useContext(CalculatorContext);
 
             function handleInputClick(input) {
                 if (input === "C") {
@@ -220,7 +230,7 @@
                     const operationResult = eval(operation.replace(/,/g, '.'));
                     const parsedResult = operationResult.toString()?.replace('.', ",");
                     setResult(parsedResult);
-                    uptadeHistory(operation, parsedResult);
+                    updateHistory(operation, parsedResult);
                     return;
                 }
 
