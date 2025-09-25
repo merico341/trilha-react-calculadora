@@ -8,7 +8,7 @@
 
 ![Uma calculadora usando react][calculadora-screenshot]
 
-[calculadora-screenshot]: README-img/calculadora-react.jpg
+[calculadora-screenshot]: imgs/calculadora-react.jpg
 
 ## Como excutar
 
